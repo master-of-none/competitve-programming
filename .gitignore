@@ -36,3 +36,5 @@ build/
 
 # macOS garbage
 .DS_Store
+.cache/
+.vscode/
