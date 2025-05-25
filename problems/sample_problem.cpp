@@ -1,10 +1,17 @@
 #include<iostream>
+#include<gtest/gtest.h>
 using namespace std;
 
-int main() {
-    int a, b;
-    a = 10;
-    b = 20;
-    cout << a << endl << b << endl;
+int add(int a, int b) {
+    return a + b;
+}
 
+TEST(AdditionTests, BasicCases) {
+    EXPECT_EQ(add(1, 2), 3);
+    EXPECT_EQ(add(-1, -1), -2);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
