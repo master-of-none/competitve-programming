@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class solution {
+class Solution {
 public:
     bool containsduplicate(vector<int> &nums) {
         unordered_set<int> hashset;
@@ -16,38 +16,38 @@ public:
                 return true;
             }
             hashset.insert(n);
-
-            return false;
         }
+
+        return false;
     };
 };
 
 TEST(ContainsDuplicateTest, NoDuplicates) {
-    solution sol;
+    Solution sol;
     vector<int> nums = {1, 2, 3, 4};
     EXPECT_FALSE(sol.containsduplicate(nums));
 }
 
 TEST(ContainsDuplicateTest, HasDuplicates) {
-    solution sol;
+    Solution sol;
     vector<int> nums = {1, 2, 3, 2};
     EXPECT_TRUE(sol.containsduplicate(nums));
 }
 
 TEST(ContainsDuplicateTest, EmptyVector) {
-    solution sol;
+    Solution sol;
     vector<int> nums = {};
     EXPECT_FALSE(sol.containsduplicate(nums));
 }
 
 TEST(ContainsDuplicateTest, SingleElement) {
-    solution sol;
+    Solution sol;
     vector<int> nums = {42};
     EXPECT_FALSE(sol.containsduplicate(nums));
 }
 
 TEST(ContainsDuplicateTest, AllSame) {
-    solution sol;
+    Solution sol;
     vector<int> nums = {7, 7, 7, 7};
     EXPECT_TRUE(sol.containsduplicate(nums));
 }
