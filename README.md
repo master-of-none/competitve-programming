@@ -21,5 +21,5 @@ This repository contains my solutions to various competitive programming problem
 
 4. Run a solution:
    ```bash
-   ./sample_problem
+   ./bin/<problemName>
    ```
