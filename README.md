@@ -2,6 +2,10 @@
 
 This repository contains my solutions to various competitive programming problems using **C++17**, organized and built with **CMake**.
 
+## Dependencies
+- cmake
+- gtest
+
 ## ⚙️ Build Instructions
 
 1. Create and navigate to the `build/` directory:
