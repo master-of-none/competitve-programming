@@ -7,7 +7,7 @@
 using namespace std;
 
 class Solution {
-public:
+   public:
     bool containsduplicate(vector<int> &nums) {
         unordered_set<int> hashset;
 

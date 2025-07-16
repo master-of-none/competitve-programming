@@ -6,7 +6,7 @@
 using namespace std;
 
 class Solution {
-public:
+   public:
     bool isAnagram(string s, string t) {
         unordered_map<char, int> countS;
         unordered_map<char, int> countT;

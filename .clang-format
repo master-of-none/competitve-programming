@@ -3,5 +3,3 @@ IndentWidth: 4
 TabWidth: 4
 ColumnLimit: 80
 UseTab: Never
-AlignAccessSpecifiers: Left
-AccessModifierOffset: -4

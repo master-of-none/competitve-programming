@@ -6,7 +6,7 @@
 using namespace std;
 
 class Solution {
-public:
+   public:
     vector<int> productOfArray(vector<int> &nums) {
         vector<int> res(nums.size(), 1);
         int prefix = 1;
