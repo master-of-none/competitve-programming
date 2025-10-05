@@ -12,9 +12,10 @@ add_subdirectory(tests)
 file(GLOB_RECURSE PROBLEM_SOURCES "problems/*.cpp")
 file(GLOB_RECURSE UVA_SOURCES "uva/*.cpp")
 file(GLOB_RECURSE CF_SOURCES "codeforces/*.cpp")
+file(GLOB_RECURSE HALIM "halim/*.cpp")
 
 # Combine into a single list
-list(APPEND ALL_SOURCES ${PROBLEM_SOURCES} ${UVA_SOURCES} ${CF_SOURCES})
+list(APPEND ALL_SOURCES ${PROBLEM_SOURCES} ${UVA_SOURCES} ${CF_SOURCES} ${HALIM})
 
 # Build an executable for each source file
 foreach(SRC ${ALL_SOURCES})
@@ -25,6 +26,7 @@ foreach(SRC ${ALL_SOURCES})
     # Only link tests for 'problems/' folder (i.e., exclude 'uva/' and 'codeforces/')
     string(FIND "${SRC}" "/uva/" UVA_FOUND)
     string(FIND "${SRC}" "/codeforces/" CF_FOUND)
+    string(FIND "${SRC}" "/halim/" HALIM_FOUND)
 
     if(UVA_FOUND EQUAL -1 AND CF_FOUND EQUAL -1)
         target_link_libraries(${EXEC_NAME} gtest gtest_main)

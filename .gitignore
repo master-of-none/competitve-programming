@@ -245,3 +245,14 @@ __marimo__/
 .streamlit/secrets.toml
 uva/halim/header.h
 .zed
+.idea/.gitignore
+.idea/.name
+.idea/competitve-programming.iml
+.idea/editor.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+.idea/dictionaries/project.xml
+.idea/inspectionProfiles/Project_Default.xml
