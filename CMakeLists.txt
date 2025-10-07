@@ -36,5 +36,7 @@ endforeach()
 foreach(SRC ${HALIM_PROBLEMS})
     get_filename_component(PROG_NAME ${SRC} NAME_WE)
     add_executable(${PROG_NAME} ${SRC})
-    set_target_properties(${PROG_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set_target_properties(${PROG_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/halim
+    )
 endforeach()
