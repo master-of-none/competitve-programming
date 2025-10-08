@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -8,7 +7,9 @@
 
 namespace fs = std::filesystem;
 
-// Run a program with input and capture output
+// ======================================================
+// 🔹 Helper: Run a program and capture its output
+// ======================================================
 std::string run_program(const std::string& exe_path,
                         const std::string& input_file) {
     std::string temp_output = "temp_output.txt";
@@ -30,13 +31,12 @@ std::string run_program(const std::string& exe_path,
     std::stringstream buffer;
     buffer << out.rdbuf();
     std::string output = buffer.str();
-
-    std::cout << "[ INFO ] Program Output:\n" << output << std::endl;
     return output;
 }
 
-// Compare program output with expected output
-// Compare program output with expected output
+// ======================================================
+// 🔹 Helper: Compare output with expected output
+// ======================================================
 void check_output(const std::string& exe_path, const std::string& input_file,
                   const std::string& output_file) {
     std::string output = run_program(exe_path, input_file);
@@ -51,26 +51,37 @@ void check_output(const std::string& exe_path, const std::string& input_file,
     expected_buffer << expected_file.rdbuf();
     std::string expected_output = expected_buffer.str();
 
-    std::cout << "[ INFO ] Expected Output:\n" << expected_output << std::endl;
-
-    // ✅ Trim trailing newlines and carriage returns from both strings
+    // Trim trailing newline
     auto trim_end = [](std::string& s) {
         while (!s.empty() && (s.back() == '\n' || s.back() == '\r'))
             s.pop_back();
     };
-
     trim_end(output);
     trim_end(expected_output);
 
     EXPECT_EQ(output, expected_output);
 }
 
-// Generate tests for problems that have input/output files
-TEST(HalimProblems, AllProblems) {
+// ======================================================
+// 🔹 Parameterized GTest Setup
+// ======================================================
+class DynamicTest : public ::testing::TestWithParam<
+                        std::tuple<std::string, std::string, std::string>> {};
+
+TEST_P(DynamicTest, Run) {
+    auto [exe_path, input_file, output_file] = GetParam();
+    check_output(exe_path, input_file, output_file);
+}
+
+// ======================================================
+// 🔹 Dynamic Test Collector
+// ======================================================
+std::vector<std::tuple<std::string, std::string, std::string>> collect_tests() {
+    std::vector<std::tuple<std::string, std::string, std::string>> tests;
+
+    //! Path to Halim (change when needed)
     std::string halim_folder =
         "/Volumes/Personal/Programming/competitve-programming/halim/";
-
-    int tested = 0;
 
     for (const auto& chapter : fs::directory_iterator(halim_folder)) {
         if (!chapter.is_directory()) continue;
@@ -78,43 +89,26 @@ TEST(HalimProblems, AllProblems) {
         for (const auto& problem : fs::directory_iterator(chapter.path())) {
             if (problem.path().extension() != ".cpp") continue;
 
-            std::string problem_name = problem.path().stem().string();
-            std::string exe_path = "../bin/halim/" + problem_name;
-            std::string input_file = chapter.path().string() + "/tests/" +
-                                     problem_name + "_input.txt";
-            std::string output_file = chapter.path().string() + "/tests/" +
-                                      problem_name + "_output.txt";
+            std::string name = problem.path().stem().string();
+            std::string exe = "../bin/halim/" + name;
+            std::string in =
+                chapter.path().string() + "/tests/" + name + "_input.txt";
+            std::string out =
+                chapter.path().string() + "/tests/" + name + "_output.txt";
 
-            bool has_input = fs::exists(input_file);
-            bool has_output = fs::exists(output_file);
-            bool has_exe = fs::exists(exe_path);
-
-            std::cout << "\n------------------------------\n";
-            std::cout << "Testing problem: " << problem_name << "\n";
-            std::cout << "Executable: " << exe_path << "\n";
-            std::cout << "Input file: " << input_file
-                      << (has_input ? " ✅" : " ❌ (missing)") << "\n";
-            std::cout << "Output file: " << output_file
-                      << (has_output ? " ✅" : " ❌ (missing)") << "\n";
-            std::cout << "------------------------------\n";
-
-            if (!has_exe) {
-                std::cout << "[ SKIP ] " << problem_name
-                          << " (no executable found)\n";
-                continue;
-            }
-            if (!has_input || !has_output) {
-                std::cout << "[ SKIP ] " << problem_name
-                          << " (missing input/output files)\n";
-                continue;
-            }
-
-            SCOPED_TRACE("Problem: " + chapter.path().filename().string() +
-                         "/" + problem_name);
-            check_output(exe_path, input_file, output_file);
-            tested++;
+            if (fs::exists(exe) && fs::exists(in) && fs::exists(out))
+                tests.emplace_back(exe, in, out);
         }
     }
-
-    std::cout << "\n✅ Total problems tested: " << tested << "\n";
+    return tests;
 }
+
+// ======================================================
+// 🔹 Instantiate Tests Dynamically
+// ======================================================
+INSTANTIATE_TEST_SUITE_P(
+    HalimProblems, DynamicTest, ::testing::ValuesIn(collect_tests()),
+    [](const ::testing::TestParamInfo<
+        std::tuple<std::string, std::string, std::string>>& info) {
+        return fs::path(std::get<0>(info.param)).stem().string();  // test name
+    });
