@@ -90,7 +90,10 @@ std::vector<std::tuple<std::string, std::string, std::string>> collect_tests() {
             if (problem.path().extension() != ".cpp") continue;
 
             std::string name = problem.path().stem().string();
-            std::string exe = "../bin/halim/" + name;
+            std::string exe =
+                "/Volumes/Personal/Programming/competitve-programming/build/"
+                "bin/halim/" +
+                name;  // relative to project root + name;
             std::string in =
                 chapter.path().string() + "/tests/" + name + "_input.txt";
             std::string out =
@@ -106,6 +109,8 @@ std::vector<std::tuple<std::string, std::string, std::string>> collect_tests() {
 // ======================================================
 // 🔹 Instantiate Tests Dynamically
 // ======================================================
+// GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(DynamicTest);
+
 INSTANTIATE_TEST_SUITE_P(
     HalimProblems, DynamicTest, ::testing::ValuesIn(collect_tests()),
     [](const ::testing::TestParamInfo<
