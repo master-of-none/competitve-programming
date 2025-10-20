@@ -83,29 +83,48 @@ std::vector<std::tuple<std::string, std::string, std::string>> collect_tests() {
     std::string halim_folder =
         "/Volumes/Personal/Programming/competitve-programming/halim/";
 
+    // Helper: find the nearest tests folder upwards from a cpp file
+    auto find_tests_folder = [](const fs::path& cpp_file) -> fs::path {
+        fs::path dir = cpp_file.parent_path();
+        while (!dir.empty()) {
+            fs::path candidate = dir / "tests";
+            if (fs::exists(candidate) && fs::is_directory(candidate)) {
+                return candidate;
+            }
+            dir = dir.parent_path();
+        }
+        throw std::runtime_error("tests folder not found for " +
+                                 cpp_file.string());
+    };
+
+    // Iterate through all chapters
     for (const auto& chapter : fs::directory_iterator(halim_folder)) {
         if (!chapter.is_directory()) continue;
 
-        for (const auto& problem : fs::directory_iterator(chapter.path())) {
+        // Recursive iteration to include subfolders
+        for (const auto& problem :
+             fs::recursive_directory_iterator(chapter.path())) {
             if (problem.path().extension() != ".cpp") continue;
 
             std::string name = problem.path().stem().string();
             std::string exe =
                 "/Volumes/Personal/Programming/competitve-programming/build/"
                 "bin/halim/" +
-                name;  // relative to project root + name;
-            std::string in =
-                chapter.path().string() + "/tests/" + name + "_input.txt";
-            std::string out =
-                chapter.path().string() + "/tests/" + name + "_output.txt";
+                name;
+
+            // Find the nearest tests folder
+            fs::path tests_folder = find_tests_folder(problem.path());
+
+            std::string in = (tests_folder / (name + "_input.txt")).string();
+            std::string out = (tests_folder / (name + "_output.txt")).string();
 
             if (fs::exists(exe) && fs::exists(in) && fs::exists(out))
                 tests.emplace_back(exe, in, out);
         }
     }
+
     return tests;
 }
-
 // ======================================================
 // 🔹 Instantiate Tests Dynamically
 // ======================================================
