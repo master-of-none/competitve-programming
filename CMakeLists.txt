@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.24)
 project(CompetitiveProgramming)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O0 -g")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow -O2")
 
 include_directories(include)
 
@@ -27,18 +28,18 @@ file(GLOB_RECURSE HALIM_PROBLEMS "halim/*/*.cpp")  # all problems in all chapter
 # -----------------------
 list(APPEND ALL_SOURCES ${UVA_SOURCES} ${CF_SOURCES})
 foreach(SRC ${ALL_SOURCES})
-    get_filename_component(EXEC_NAME ${SRC} NAME_WE)
-    add_executable(${EXEC_NAME} ${SRC})
-    set_target_properties(${EXEC_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+  get_filename_component(EXEC_NAME ${SRC} NAME_WE)
+  add_executable(${EXEC_NAME} ${SRC})
+  set_target_properties(${EXEC_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endforeach()
 
 # -----------------------
 # Build Halim problem executables
 # -----------------------
 foreach(SRC ${HALIM_PROBLEMS})
-    get_filename_component(PROG_NAME ${SRC} NAME_WE)
-    add_executable(${PROG_NAME} ${SRC})
-    set_target_properties(${PROG_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/halim)
+  get_filename_component(PROG_NAME ${SRC} NAME_WE)
+  add_executable(${PROG_NAME} ${SRC})
+  set_target_properties(${PROG_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/halim)
 endforeach()
 
 # -----------------------
