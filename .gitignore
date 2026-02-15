@@ -31,6 +31,12 @@
 *.out
 *.app
 
+# Compiled binaries without extensions (competitive programming)
+halim/**/[!.]*
+!halim/**/*.cpp
+!halim/**/*.h
+!halim/**/*.md
+
 # CMAKE
 build/
 
