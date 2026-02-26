@@ -32,7 +32,9 @@
 *.app
 
 # Compiled binaries without extensions (competitive programming)
-halim/**/[!.]*
+# Ignore extensionless files in halim (compiled binaries)
+halim/**/*
+!halim/**/*/
 !halim/**/*.cpp
 !halim/**/*.h
 !halim/**/*.md
