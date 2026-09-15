@@ -1,6 +1,59 @@
+---
+Language: Cpp
 BasedOnStyle: Google
+Standard: Latest
+
+# Keep contest solutions compact without making long expressions hard to scan.
+ColumnLimit: 100
 IndentWidth: 2
+ContinuationIndentWidth: 4
 TabWidth: 2
 UseTab: Never
-AccessModifierOffset: -4
-ColumnLimit: 80
+
+# Align access specifiers with the class or struct declaration.
+AccessModifierOffset: -2
+IndentAccessModifiers: false
+IndentCaseLabels: true
+IndentCaseBlocks: false
+IndentPPDirectives: AfterHash
+PPIndentWidth: 2
+NamespaceIndentation: None
+
+# Prefer one statement per line; genuinely empty definitions may stay compact.
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Attach
+
+# Make wrapped calls and declarations stable as arguments are added or removed.
+AlignAfterOpenBracket: Align
+AlignOperands: Align
+BinPackArguments: false
+BinPackParameters: false
+ExperimentalAutoDetectBinPacking: false
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerIndentWidth: 4
+
+# Use the prevailing modern C++ spelling in this repository.
+DerivePointerAlignment: false
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+QualifierAlignment: Leave
+SpaceBeforeParens: ControlStatements
+
+# Keep includes and surrounding whitespace deterministic.
+IncludeBlocks: Regroup
+SortIncludes: CaseSensitive
+SortUsingDeclarations: LexicographicNumeric
+SeparateDefinitionBlocks: Always
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
+InsertNewlineAtEOF: true
+
+FixNamespaceComments: true
+ReflowComments: true
+...
